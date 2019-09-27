@@ -25,6 +25,36 @@ import Type.Data.RowList (RLProxy(..))
 import Type.Proxy (Proxy(..))
 import Unsafe.Coerce (unsafeCoerce)
 
+-- | Default decoding/encoding options:
+-- |
+-- | - Represent sum types as records with `tag` and `contents` fields
+-- | - Unwrap single arguments
+-- | - Don't unwrap single constructors
+-- | - Use the constructor names as-is
+-- | - Use the field names as-is
+defaultOptions :: Options
+defaultOptions =
+  { sumEncoding:
+      TaggedObject
+        { tagFieldName: "tag"
+        , contentsFieldName: "contents"
+        , constructorTagTransform: identity
+        , unwrapRecords: false
+        }
+  , unwrapSingleConstructors: false
+  , unwrapSingleArguments: true
+  , fieldTransform: identity
+  }
+
+-- | Aeson unwraps records, use this sum encoding with Aeson generated json
+aesonSumEncoding :: SumEncoding
+aesonSumEncoding = TaggedObject
+        { tagFieldName: "tag"
+        , contentsFieldName: "contents"
+        , constructorTagTransform: identity
+        , unwrapRecords: true
+        }
+  
 class GenericDecode a where
   decodeOpts :: Options -> Foreign -> F a
 

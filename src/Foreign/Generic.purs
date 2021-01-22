@@ -13,7 +13,7 @@ import Prelude
 import Data.Generic.Rep (class Generic, from, to)
 import Foreign (F, Foreign)
 import Foreign (F, Foreign, ForeignError(..)) as Reexports
-import Foreign.Generic.Class (class Decode, class Encode, class GenericDecode, class GenericEncode, Options, SumEncoding(..), defaultOptions, decode, encode) as Reexports
+import Foreign.Generic.Class (class Decode, class Encode, class GenericDecode, class GenericEncode, Options, SumEncoding(..), defaultOptions, decode, encode, aesonSumEncoding) as Reexports
 import Foreign.Generic.Class (class Decode, class Encode, class GenericDecode, class GenericEncode, Options, decode, decodeOpts, encode, encodeOpts)
 import Foreign.JSON (decodeJSONWith, parseJSON, unsafeStringify)
 

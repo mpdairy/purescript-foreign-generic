@@ -414,6 +414,8 @@ instance genericDecodeConstructor
 instance genericEncodeConstructor
   :: (IsSymbol name, GenericEncodeArgs rep)
   => GenericEncode (Constructor name rep) where
+  -- encodeOpts opts (Constructor (Constructor (Record r)) =
+    
   encodeOpts opts (Constructor args) =
         if opts.unwrapSingleConstructors
         then fromMaybe (unsafeToForeign {}) (encodeArgsArray args)
@@ -422,7 +424,7 @@ instance genericEncodeConstructor
                  unsafeToForeign $
                    let tagPart = Object.singleton tagFieldName (unsafeToForeign $ constructorTagTransform ctorName)
                        contentPart = objectFromArgs opts.sumEncoding (encodeArgsArray args)
-                   in if Object.member tagFieldName contentPart
+                   in if Object.member tagFieldName contentPart -- || opts.unwrapSingleArguments
                       then Object.insert contentsFieldName (unsafeToForeign contentPart) tagPart
                       else tagPart `Object.union` contentPart
     where
